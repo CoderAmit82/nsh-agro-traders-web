@@ -1,8 +1,5 @@
 const PRODUCTION_API_ORIGIN = 'https://nsh-agro-traders-web.onrender.com';
-const configuredApiOrigin = import.meta.env.VITE_API_URL?.trim();
-const API_ORIGIN = (configuredApiOrigin && !/localhost|127\.0\.0\.1/i.test(configuredApiOrigin)
-  ? configuredApiOrigin
-  : PRODUCTION_API_ORIGIN).replace(/\/$/, '');
+const API_ORIGIN = PRODUCTION_API_ORIGIN;
 
 export const API_BASE = `${API_ORIGIN}/api`;
 
