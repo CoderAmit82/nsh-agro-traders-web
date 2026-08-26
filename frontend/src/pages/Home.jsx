@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Sprout, ShieldAlert, Award, ArrowRight, Star } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
+import { API_BASE } from '../config/api';
 
 const Home = ({ setCurrentTab, setSelectedProductId, setCategoryFilter }) => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -9,7 +10,7 @@ const Home = ({ setCurrentTab, setSelectedProductId, setCategoryFilter }) => {
   useEffect(() => {
     const fetchFeatured = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/products');
+        const response = await fetch(`${API_BASE}/products`);
         const data = await response.json();
         if (data.success) {
           // Take top 4 items for featured

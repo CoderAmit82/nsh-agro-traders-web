@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Phone, Mail, MapPin, Send, MessageCircle } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
+import { API_BASE } from '../config/api';
 
 const Contact = ({ setCurrentTab }) => {
   const { token, user } = useContext(AuthContext);
@@ -22,7 +23,7 @@ const Contact = ({ setCurrentTab }) => {
     // 1. If logged in, save to backend support message desk first
     if (token) {
       try {
-        await fetch('http://localhost:5000/api/messages', {
+        await fetch(`${API_BASE}/messages`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

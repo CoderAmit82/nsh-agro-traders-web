@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Search, SlidersHorizontal, RefreshCw } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
+import { API_BASE } from '../config/api';
 
 const Catalog = ({ setCurrentTab, setSelectedProductId, categoryFilter, setCategoryFilter }) => {
   const [products, setProducts] = useState([]);
@@ -14,7 +15,7 @@ const Catalog = ({ setCurrentTab, setSelectedProductId, categoryFilter, setCateg
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      let url = `http://localhost:5000/api/products?`;
+      let url = `${API_BASE}/products?`;
       if (categoryFilter) url += `category=${categoryFilter}&`;
       if (search) url += `search=${search}&`;
       if (minPrice) url += `minPrice=${minPrice}&`;

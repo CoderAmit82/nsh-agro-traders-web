@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
+import { API_BASE, assetUrl } from '../config/api';
 import { User, Sprout, ShoppingBag, MessageSquare, Bell, Download, Heart, DollarSign } from 'lucide-react';
 
 const Dashboard = ({ setCurrentTab }) => {
@@ -56,13 +57,13 @@ const Dashboard = ({ setCurrentTab }) => {
     setOrdersLoading(true);
     try {
       // 1. Fetch Orders
-      const orderRes = await fetch('http://localhost:5000/api/orders/my-orders', {
+      const orderRes = await fetch(`${API_BASE}/orders/my-orders`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const orderData = await orderRes.json();
 
       // 2. Fetch Payments
-      const payRes = await fetch('http://localhost:5000/api/payments/my-payments', {
+      const payRes = await fetch(`${API_BASE}/payments/my-payments`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const payData = await payRes.json();
@@ -80,7 +81,7 @@ const Dashboard = ({ setCurrentTab }) => {
     if (!token) return;
     setWishlistLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/products/wishlist/all', {
+      const res = await fetch(`${API_BASE}/products/wishlist/all`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -142,7 +143,7 @@ const Dashboard = ({ setCurrentTab }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/orders/${orderId}/invoice`, {
+      const response = await fetch(`${API_BASE}/orders/${orderId}/invoice`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -172,7 +173,7 @@ const Dashboard = ({ setCurrentTab }) => {
     setPayLoading(true);
     try {
       if (payMethod === 'Razorpay') {
-        const response = await fetch(`http://localhost:5000/api/payments/razorpay-order/${payingRecord._id}`, {
+        const response = await fetch(`${API_BASE}/payments/razorpay-order/${payingRecord._id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -193,7 +194,7 @@ const Dashboard = ({ setCurrentTab }) => {
             handler: async function (response) {
               setPayLoading(true);
               try {
-                const verifyRes = await fetch('http://localhost:5000/api/payments/verify-razorpay', {
+                const verifyRes = await fetch(`${API_BASE}/payments/verify-razorpay`, {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -239,7 +240,7 @@ const Dashboard = ({ setCurrentTab }) => {
           alert(data.message || 'Failed to create Razorpay payment order.');
         }
       } else {
-        const response = await fetch(`http://localhost:5000/api/payments/pay/${payingRecord._id}`, {
+        const response = await fetch(`${API_BASE}/payments/pay/${payingRecord._id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -679,7 +680,7 @@ const Dashboard = ({ setCurrentTab }) => {
                       className="border border-gray-100 rounded-xl p-3 bg-gray-50 hover:bg-green-50/10 cursor-pointer flex flex-col items-center justify-between shadow-sm hover:shadow"
                     >
                       <img
-                        src={prod.images?.[0] ? `http://localhost:5000${prod.images[0]}` : 'https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?auto=format&fit=crop&q=80&w=150'}
+                        src={prod.images?.[0] ? assetUrl(prod.images[0]) : 'https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?auto=format&fit=crop&q=80&w=150'}
                         alt={prod.name}
                         className="h-20 w-20 object-contain mb-2"
                         onError={(e) => {

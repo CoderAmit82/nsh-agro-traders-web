@@ -3,6 +3,7 @@ import { ArrowLeft, ShoppingCart, Star, MessageSquare, BookOpen, Calendar, Miles
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
 import ProductCard from '../components/ProductCard';
+import { API_BASE, assetUrl } from '../config/api';
 
 const ProductDetails = ({ productId, setSelectedProductId, setCurrentTab }) => {
   const { addToCart } = useContext(CartContext);
@@ -21,13 +22,13 @@ const ProductDetails = ({ productId, setSelectedProductId, setCurrentTab }) => {
   const fetchProductDetails = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${productId}`);
+      const response = await fetch(`${API_BASE}/products/${productId}`);
       const data = await response.json();
       if (data.success) {
         setProduct(data.product);
 
         // Fetch related products in the same category
-        const relResponse = await fetch(`http://localhost:5000/api/products?category=${data.product.category}`);
+        const relResponse = await fetch(`${API_BASE}/products?category=${data.product.category}`);
         const relData = await relResponse.json();
         if (relData.success) {
           // Filter out the current product and take top 4
@@ -69,7 +70,7 @@ const ProductDetails = ({ productId, setSelectedProductId, setCurrentTab }) => {
 
     setSubmitLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${productId}/reviews`, {
+      const response = await fetch(`${API_BASE}/products/${productId}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -127,7 +128,7 @@ const ProductDetails = ({ productId, setSelectedProductId, setCurrentTab }) => {
         {/* Left Column: Images */}
         <div className="bg-green-50/50 rounded-2xl p-8 flex items-center justify-center border border-gray-50 h-[380px] overflow-hidden">
           <img
-            src={product.images?.[0] ? `http://localhost:5000${product.images[0]}` : 'https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?auto=format&fit=crop&q=80&w=400'}
+            src={product.images?.[0] ? assetUrl(product.images[0]) : 'https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?auto=format&fit=crop&q=80&w=400'}
             alt={product.name}
             className="max-h-full max-w-full object-contain"
             onError={(e) => {

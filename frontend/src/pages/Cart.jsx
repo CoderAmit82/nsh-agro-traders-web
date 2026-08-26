@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { ShoppingCart, Trash2, ArrowRight, ArrowLeft } from 'lucide-react';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
+import { assetUrl } from '../config/api';
 
 const Cart = ({ setCurrentTab }) => {
   const { cartItems, updateQuantity, removeFromCart, getCartTotal } = useContext(CartContext);
@@ -62,7 +63,7 @@ const Cart = ({ setCurrentTab }) => {
                   <div className="flex items-center space-x-4">
                     <div className="h-16 w-16 bg-green-50 rounded-lg flex items-center justify-center p-2 border border-gray-50 flex-shrink-0">
                       <img
-                        src={item.product.images?.[0] ? `http://localhost:5000${item.product.images[0]}` : 'https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?auto=format&fit=crop&q=80&w=150'}
+                        src={item.product.images?.[0] ? assetUrl(item.product.images[0]) : 'https://images.unsplash.com/photo-1592417817098-8f3d6eb19675?auto=format&fit=crop&q=80&w=150'}
                         alt={item.product.name}
                         className="max-h-full max-w-full object-contain"
                         onError={(e) => {

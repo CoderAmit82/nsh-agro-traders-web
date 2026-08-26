@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import { ChatContext } from '../context/ChatContext';
+import { API_BASE } from '../config/api';
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { LayoutDashboard, Package, ShoppingCart, CreditCard, MessageSquare, Star, Plus, Edit, Trash2, ShieldAlert, ArrowRight } from 'lucide-react';
 
@@ -59,7 +60,7 @@ const AdminDashboard = ({ setCurrentTab }) => {
     if (!token) return;
     setLoadingStats(true);
     try {
-      const response = await fetch('http://localhost:5000/api/analytics/dashboard', {
+      const response = await fetch(`${API_BASE}/analytics/dashboard`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await response.json();
@@ -80,7 +81,7 @@ const AdminDashboard = ({ setCurrentTab }) => {
   const fetchProductsList = async () => {
     setProdLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/products');
+      const response = await fetch(`${API_BASE}/products`);
       const data = await response.json();
       if (data.success) {
         setProducts(data.products);
@@ -110,7 +111,7 @@ const AdminDashboard = ({ setCurrentTab }) => {
     if (!token) return;
     setOrdersLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch(`${API_BASE}/orders`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await response.json();
@@ -129,7 +130,7 @@ const AdminDashboard = ({ setCurrentTab }) => {
     if (!token) return;
     setPaymentsLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/payments', {
+      const response = await fetch(`${API_BASE}/payments`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await response.json();
@@ -218,7 +219,7 @@ const AdminDashboard = ({ setCurrentTab }) => {
         }
       }
 
-      let url = 'http://localhost:5000/api/products';
+      let url = `${API_BASE}/products`;
       let method = 'POST';
 
       if (editingProduct) {
@@ -252,7 +253,7 @@ const AdminDashboard = ({ setCurrentTab }) => {
   const handleDeleteProduct = async (id) => {
     if (!window.confirm('Are you absolutely sure you want to delete this product? This will remove all catalog details.')) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const response = await fetch(`${API_BASE}/products/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -271,7 +272,7 @@ const AdminDashboard = ({ setCurrentTab }) => {
   // Update order status
   const handleOrderStatusUpdate = async (id, status) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/orders/${id}/status`, {
+      const response = await fetch(`${API_BASE}/orders/${id}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -303,7 +304,7 @@ const AdminDashboard = ({ setCurrentTab }) => {
     e.preventDefault();
     setSubmittingAdjustment(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/payments/${adjustingPayment._id}/adjust`, {
+      const response = await fetch(`${API_BASE}/payments/${adjustingPayment._id}/adjust`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

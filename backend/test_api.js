@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://nsh-agro-traders-web.onrender.com/api';
 
 const runTests = async () => {
   console.log('--- Starting Programmatic API Verification Tests ---');

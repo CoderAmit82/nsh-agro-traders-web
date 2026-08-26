@@ -1,7 +1,7 @@
 const assert = require('assert');
 const crypto = require('crypto');
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = 'https://nsh-agro-traders-web.onrender.com/api';
 
 const runRazorpayTests = async () => {
   console.log('--- Starting Razorpay API Verification Tests ---');

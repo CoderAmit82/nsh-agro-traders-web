@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
+import { API_BASE } from '../config/api';
 import { Truck, CreditCard, CheckCircle2, ArrowLeft } from 'lucide-react';
 
 const Checkout = ({ setCurrentTab }) => {
@@ -42,7 +43,7 @@ const Checkout = ({ setCurrentTab }) => {
         quantity: item.quantity
       }));
 
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch(`${API_BASE}/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +69,7 @@ const Checkout = ({ setCurrentTab }) => {
             handler: async function (response) {
               setLoading(true);
               try {
-                const verifyRes = await fetch('http://localhost:5000/api/payments/verify-razorpay', {
+                const verifyRes = await fetch(`${API_BASE}/payments/verify-razorpay`, {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',

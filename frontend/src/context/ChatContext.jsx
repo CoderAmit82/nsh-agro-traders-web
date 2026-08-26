@@ -1,9 +1,8 @@
 import React, { createContext, useState, useContext } from 'react';
 import { AuthContext } from './AuthContext';
+import { API_BASE } from '../config/api';
 
 export const ChatContext = createContext();
-
-const API_BASE = 'http://localhost:5000/api';
 
 export const ChatProvider = ({ children }) => {
   const { token, user } = useContext(AuthContext);

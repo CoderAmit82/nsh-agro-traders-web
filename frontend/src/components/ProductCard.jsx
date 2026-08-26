@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { ShoppingCart, Heart, Star } from 'lucide-react';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
+import { API_BASE, assetUrl } from '../config/api';
 
 const ProductCard = ({ product, setSelectedProductId, setCurrentTab }) => {
   const { addToCart } = useContext(CartContext);
@@ -27,7 +28,7 @@ const ProductCard = ({ product, setSelectedProductId, setCurrentTab }) => {
     }
     setWishlistLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/products/wishlist/${product._id}`, {
+      const response = await fetch(`${API_BASE}/products/wishlist/${product._id}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`
@@ -80,7 +81,7 @@ const ProductCard = ({ product, setSelectedProductId, setCurrentTab }) => {
       <div className="h-44 bg-green-50 flex items-center justify-center p-4 border-b border-gray-50 overflow-hidden">
         {product.images && product.images.length > 0 ? (
           <img
-            src={`http://localhost:5000${product.images[0]}`}
+            src={assetUrl(product.images[0])}
             alt={product.name}
             className="h-full w-full object-contain hover:scale-105 transition-transform duration-300"
             onError={(e) => {
